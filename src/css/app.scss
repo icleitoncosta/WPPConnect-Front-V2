@@ -1,0 +1,31 @@
+// app global css in SCSS form
+
+.chat-list {
+  min-height: 100%;
+  z-index: 1;
+  box-shadow: 2px 0px 6px black;
+}
+
+.messages-list {
+  padding: 15px;
+}
+
+.messages-list .header {
+  background-color: rgb(241, 241, 241);
+  padding: 10px;
+}
+
+.messages-list .header .contact-info {
+  padding-left: 15px;
+}
+.messages-list .header .contact-info .text {
+  display: inline-block;
+  margin-left: 10px;
+}
+.messages-list .header .contact-info .text .contact_name,
+.messages-list .header .contact-info .text .contact_status {
+  display: block;
+}
+.messages-list .header .contact-info .text .contact_name {
+  font-weight: bold;
+}
