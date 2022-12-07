@@ -48,13 +48,29 @@
 
     <q-drawer v-model="leftDrawerOpen" bordered>
       <q-list>
-        <q-item-label header>Menu</q-item-label>
+        <q-item-label header class="text-weight-bold text-uppercase">
+          Chat's and contacts menu
+        </q-item-label>
 
         <EssentialLink
           v-for="link in linksList"
           :key="link.title"
           v-bind="link"
         />
+        <q-separator class="q-my-md" />
+        <q-item-label header class="text-weight-bold text-uppercase">
+          Settings
+        </q-item-label>
+        <q-item clickable @click="setDarkMode()">
+          <q-item-section avatar>
+            <q-icon name="settings" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Settings</q-item-label>
+            <q-item-label caption>Edit your preferences</q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item clickable @click="setDarkMode()">
           <q-item-section avatar>
             <q-icon name="light" />
@@ -63,6 +79,26 @@
           <q-item-section>
             <q-item-label>Dark Mode</q-item-label>
             <q-item-label caption>Enable and disable dark mode</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable>
+          <q-item-section avatar>
+            <q-icon name="person" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Profile</q-item-label>
+            <q-item-label caption>Edit your profile</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable>
+          <q-item-section avatar>
+            <q-icon name="logout" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Logout</q-item-label>
+            <q-item-label caption>Logout of your panel</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -117,12 +153,6 @@ export default defineComponent({
           caption: this.$t('groups_menu_caption'),
           icon: 'group',
           link: '/groups',
-        },
-        {
-          title: this.$t('settings'),
-          caption: this.$t('settings_menu_caption'),
-          icon: 'settings',
-          link: '/settings',
         },
       ],
     };
