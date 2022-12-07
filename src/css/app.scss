@@ -29,3 +29,14 @@
 .messages-list .header .contact-info .text .contact_name {
   font-weight: bold;
 }
+
+.date-head .line {
+  height: 2px;
+  background-color: $secondary;
+}
+
+.date-head .text {
+  background-color: $secondary;
+  padding: 5px 20px 5px 20px;
+  margin-top: -18px;
+}

@@ -6,6 +6,24 @@
     >
       <div class="col-3 chat-list">
         <q-toolbar class="bg-grey-2">
+          <q-btn round flat icon="settings">
+            <q-menu auto-close>
+              <q-list style="min-width: 150px">
+                <q-item clickable
+                  ><q-item-section avatar>
+                    <q-icon color="teal" name="person" />
+                  </q-item-section>
+                  <q-item-section>Chat with people</q-item-section>
+                </q-item>
+                <q-item clickable>
+                  <q-item-section avatar>
+                    <q-icon color="red" name="groups" />
+                  </q-item-section>
+                  <q-item-section>Chat with groups</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
           <q-input
             rounded
             outlined
@@ -70,7 +88,7 @@
         </div>
         <q-scroll-area style="height: calc(100vh - 204px)">
           <LoadMore></LoadMore>
-          <q-chat-message label="Sunday, 19th"></q-chat-message>
+          <DateHead></DateHead>
 
           <q-chat-message
             name="me"
@@ -110,17 +128,19 @@
 </template>
 
 <script lang="ts">
+import DateHead from 'src/components/Chat/DateHead.vue';
 import LoadMore from 'src/components/Chat/LoadMore.vue';
 import { defineComponent, ref } from 'vue';
 import ChatItem from '../components/ChatItem.vue';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ChatItem, LoadMore },
+  components: { ChatItem, LoadMore, DateHead },
   data() {
     return {
       message: '',
       search: '',
+      typeChat: 'person',
     };
   },
   setup() {
