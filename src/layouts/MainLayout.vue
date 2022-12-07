@@ -55,6 +55,16 @@
           :key="link.title"
           v-bind="link"
         />
+        <q-item clickable @click="setDarkMode()">
+          <q-item-section avatar>
+            <q-icon name="light" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Dark Mode</q-item-label>
+            <q-item-label caption>Enable and disable dark mode</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -116,6 +126,11 @@ export default defineComponent({
         },
       ],
     };
+  },
+  methods: {
+    setDarkMode() {
+      this.$q.dark.set(!this.$q.dark.isActive);
+    },
   },
 });
 </script>
