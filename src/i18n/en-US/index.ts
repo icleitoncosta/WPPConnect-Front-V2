@@ -17,4 +17,5 @@ export default {
 
   // Messages
   type_message: 'Type a message',
+  load_more: 'Load more messages',
 };

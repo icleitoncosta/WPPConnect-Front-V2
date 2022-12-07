@@ -69,10 +69,7 @@
           </div>
         </div>
         <q-scroll-area style="height: calc(100vh - 204px)">
-          <q-chat-message
-            style="cursor: pointer"
-            label="Load more messages"
-          ></q-chat-message>
+          <LoadMore></LoadMore>
           <q-chat-message label="Sunday, 19th"></q-chat-message>
 
           <q-chat-message
@@ -113,12 +110,13 @@
 </template>
 
 <script lang="ts">
+import LoadMore from 'src/components/Chat/LoadMore.vue';
 import { defineComponent, ref } from 'vue';
 import ChatItem from '../components/ChatItem.vue';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ChatItem },
+  components: { ChatItem, LoadMore },
   data() {
     return {
       message: '',
