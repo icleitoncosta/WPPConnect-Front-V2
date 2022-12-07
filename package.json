@@ -1,8 +1,8 @@
 {
-  "name": "pluschat",
+  "name": "Frontend",
   "version": "0.0.1",
   "description": "A project to use Server of WPPConnect v2",
-  "productName": "PlusChat",
+  "productName": "Frontend",
   "author": "WPPConnect",
   "private": false,
   "scripts": {

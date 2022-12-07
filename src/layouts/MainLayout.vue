@@ -31,6 +31,14 @@
           target="_blank"
         />
         <q-separator dark vertical />
+        <q-btn
+          flat
+          stretch
+          icon="fullscreen"
+          @click="tooggleFullScreen()"
+          v-if="$q.platform.is.desktop"
+        />
+        <q-separator dark vertical />
         <q-btn stretch flat label="Username" icon="person">
           <q-menu auto-close>
             <q-list style="min-width: 150px">
@@ -61,7 +69,7 @@
         <q-item-label header class="text-weight-bold text-uppercase">
           Settings
         </q-item-label>
-        <q-item clickable @click="setDarkMode()">
+        <q-item clickable>
           <q-item-section avatar>
             <q-icon name="settings" />
           </q-item-section>
@@ -114,6 +122,7 @@
 import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue';
 import config from '../config/config';
+import { showLoadingFull, hide } from '../helpers/Loading';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -132,6 +141,10 @@ export default defineComponent({
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
     };
+  },
+  mounted() {
+    showLoadingFull();
+    hide();
   },
   data() {
     return {
@@ -160,6 +173,13 @@ export default defineComponent({
   methods: {
     setDarkMode() {
       this.$q.dark.set(!this.$q.dark.isActive);
+    },
+    tooggleFullScreen() {
+      if (this.$q.fullscreen.isActive) {
+        this.$q.fullscreen.exit();
+      } else {
+        this.$q.fullscreen.request();
+      }
     },
   },
 });
