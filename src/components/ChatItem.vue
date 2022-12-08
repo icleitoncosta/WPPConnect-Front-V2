@@ -8,9 +8,10 @@
     </q-item-section>
     <q-item-section>
       <q-item-label>Mary</q-item-label>
-      <q-item-label caption>{{
-        $t('x_new_messages', { qnt: 1 })
-      }}</q-item-label>
+      <q-item-label class="ellipsis" style="width: 215px" caption
+        >Bla bla bla chatasd asd ad a dasda dsa das dad addaa da asda das dadasd
+        as asd</q-item-label
+      >
     </q-item-section>
     <q-item-section side> {{ $t('x_min_ago', { minutes: 1 }) }}</q-item-section>
   </q-item>

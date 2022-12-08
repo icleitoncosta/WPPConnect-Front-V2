@@ -4,7 +4,7 @@
       id="container"
       class="full-width full-height row wrap justify-start items-start content-start"
     >
-      <div class="col-3 chat-list">
+      <div class="col-3 chat-list shadow-2">
         <q-toolbar class="bg-grey-2">
           <q-btn round flat icon="settings">
             <q-menu auto-close>
@@ -57,9 +57,6 @@
           </div>
           <div class="buttons">
             <q-btn round flat icon="search" />
-            <q-btn round flat>
-              <q-icon name="attachment" class="rotate-135" />
-            </q-btn>
             <q-btn round flat icon="more_vert">
               <q-menu auto-close :offset="[110, 0]">
                 <q-list style="min-width: 150px">
@@ -108,6 +105,9 @@
 
         <q-toolbar>
           <q-btn round flat icon="insert_emoticon" class="q-mr-sm" />
+          <q-btn round flat @click="showAttachItemSheet">
+            <q-icon name="attachment" class="rotate-135" />
+          </q-btn>
           <q-input
             rounded
             outlined
@@ -128,8 +128,8 @@
 </template>
 
 <script lang="ts">
-import DateHead from 'src/components/Chat/DateHead.vue';
-import LoadMore from 'src/components/Chat/LoadMore.vue';
+import DateHead from '../components/Chat/DateHead.vue';
+import LoadMore from '../components/Chat/LoadMore.vue';
 import { defineComponent, ref } from 'vue';
 import ChatItem from '../components/ChatItem.vue';
 
@@ -151,6 +151,72 @@ export default defineComponent({
         rightDrawerOpen.value = !rightDrawerOpen.value;
       },
     };
+  },
+  methods: {
+    showAttachItemSheet() {
+      this.$q
+        .bottomSheet({
+          message: 'Send attachments',
+          grid: true,
+          actions: [
+            {
+              label: 'Poll Votes',
+              icon: 'poll',
+              color: 'purple',
+              id: 'poll',
+            },
+            {
+              label: 'Reply messages',
+              icon: 'bolt',
+              color: 'indigo',
+              id: 'replymsg',
+            },
+            {
+              label: 'Buttons',
+              icon: 'dialpad',
+              color: 'blue',
+              id: 'buttons',
+            },
+            {
+              label: 'List Message',
+              icon: 'list',
+              color: 'light-green-10',
+              id: 'listmsg',
+            },
+            {
+              label: 'Catalog',
+              icon: 'shop',
+              color: 'deep-purple',
+              id: 'catalog',
+            },
+            {
+              label: 'Document',
+              icon: 'edit_document',
+              color: 'purple',
+              id: 'document',
+            },
+            {
+              label: 'Images and videos',
+              icon: 'image',
+              color: 'primary',
+              id: 'image',
+            },
+          ],
+        })
+        .onOk((action) => {
+          if (action.id != 'document' && action.id != 'image') {
+            this.$q.dialog({
+              message: 'This function is not implemented yeat',
+            });
+          }
+        })
+        .onCancel(() => {
+          //
+        })
+        .onDismiss(() => {
+          //
+        });
+    },
   },
 });
 </script>
