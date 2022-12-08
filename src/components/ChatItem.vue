@@ -22,5 +22,6 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'ChatItem',
+  props: ['chat'],
 });
 </script>

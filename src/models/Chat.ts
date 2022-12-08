@@ -1,0 +1,32 @@
+import { Contact } from './Contact';
+import { GroupMetadata } from './GroupMetadata';
+import { MessageId } from './MessageId';
+import { Presence } from './Presence';
+import { Wid } from './Wid';
+export interface Chat {
+  id: Wid;
+  pendingMsgs: boolean;
+  lastReceivedKey: MessageId;
+  t: number;
+  unreadCount: number;
+  archive: boolean;
+  muteExpiration: number;
+  name: string;
+  notSpam: boolean;
+  pin: number;
+  msgs: null;
+  kind: string;
+  isAnnounceGrpRestrict: boolean;
+  ephemeralDuration: number;
+  hasChatBeenOpened: boolean;
+  unreadMentionCount: number;
+  hasUnreadMention: boolean;
+  archiveAtMentionViewedInDrawer: boolean;
+  isBroadcast: boolean;
+  isGroup: boolean;
+  isReadOnly: boolean;
+  isUser: boolean;
+  contact: Contact;
+  groupMetadata: GroupMetadata;
+  presence: Presence;
+}
