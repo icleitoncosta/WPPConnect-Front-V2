@@ -1,15 +1,11 @@
 <template>
   <q-page>
-    <div
-      id="container"
-      class="full-width full-height row wrap justify-start items-start content-start"
-    >
+    <div id="container" class="full-width full-height">
       <div class="row justify-center items-center">
-        <div class="col-9">
+        <div class="col-12">
           <q-table
             title="Contacts"
             :rows="rows"
-            style="min-width: 80vw"
             :columns="columns"
             row-key="name"
           >
@@ -32,7 +28,7 @@
 import { defineComponent } from 'vue';
 import { exportFile } from 'quasar';
 
-const columns = [
+const columns: any = [
   {
     name: 'name',
     required: true,
@@ -202,11 +198,13 @@ export default defineComponent({
     },
     exportTable() {
       // naive encoding to csv format
-      const content = [this.columns.map((col) => this.wrapCsvValue(col.label))]
+      const content = [
+        this.columns.map((col: any) => this.wrapCsvValue(col.label)),
+      ]
         .concat(
           this.rows.map((row: any) =>
             this.columns
-              .map((col: any) =>
+              .map((col: { name: string; field: any; format: string }) =>
                 this.wrapCsvValue(
                   typeof col.field === 'function'
                     ? col.field(row)
