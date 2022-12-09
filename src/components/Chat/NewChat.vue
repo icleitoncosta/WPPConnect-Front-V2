@@ -10,13 +10,15 @@
       <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
         <q-input
           filled
-          type="number"
+          type="tel"
           v-model="phone"
-          label="Phone number *"
+          maxlength="15"
+          label="Phone number * (Please, insert DDI)"
           lazy-rules
           :rules="[
             (val) => (val !== null && val !== '') || 'Please type phone number',
-            (val) => val.lenght > 6 || 'Please type a real phone number',
+            (val) => val.length > 10 || 'Please type a real phone number',
+            (val) => /^[0-9]+$/.test(val) || 'Please insert only number',
           ]"
         />
 
@@ -30,7 +32,7 @@
             color="primary"
             v-close-popup
           />
-          <q-btn flat label="Open chat" color="primary" v-close-popup />
+          <q-btn flat label="Open chat" color="primary" />
         </q-card-actions>
       </q-form>
     </q-card>
@@ -38,6 +40,7 @@
 </template>
 
 <script lang="ts">
+import { Contact } from 'src/models/Contact';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -46,6 +49,45 @@ export default defineComponent({
   data() {
     return {
       phone: '',
+      contact: <Contact>{
+        id: {
+          server: '@c.us',
+          user: '',
+          _serialized: '',
+        },
+        formattedName: '',
+        isBusiness: false,
+        isEnterprise: false,
+        isHighLevelVerified: false,
+        isMe: false,
+        isMyContact: false,
+        isPSA: false,
+        isUser: false,
+        isVerified: false,
+        isWAContact: true,
+        labels: [],
+        msgs: [],
+        profilePicThumbObj: {
+          eurl: '',
+          img: '',
+          id: {
+            server: '@c.us',
+            user: '',
+            _serialized: '',
+          },
+          imgFull: '',
+          raw: null,
+          tag: '',
+        },
+        plaintextDisabled: false,
+        pushname: '',
+        sectionHeader: '',
+        shortName: '',
+        statusMute: false,
+        type: 'in',
+        verifiedLevel: 0,
+        verifiedName: '',
+      },
     };
   },
   methods: {

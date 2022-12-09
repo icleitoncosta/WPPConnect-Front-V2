@@ -1,16 +1,25 @@
 <template>
-  <q-item clickable v-ripple class="chat-item">
+  <q-item
+    clickable
+    @click="$emit('selectContact', chat)"
+    v-ripple
+    class="chat-item"
+  >
     <q-item-section side>
       <q-avatar rounded size="48px">
-        <img src="https://cdn.quasar.dev/img/avatar.png" />
-        <q-badge floating color="teal">0</q-badge>
+        <q-img
+          :src="chat.profilePicThumbObj?.eurl"
+          placeholder-src="https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+          style="width: 48px; height: 48px"
+          loading="lazy"
+        />
+        <!-- <q-badge floating color="teal">0</q-badge> -->
       </q-avatar>
     </q-item-section>
     <q-item-section>
-      <q-item-label>Mary</q-item-label>
-      <q-item-label class="ellipsis" caption
-        >Bla bla bla chatasd asd ad a dasda dsa das dad addaa da asda das dadasd
-        as asd</q-item-label
+      <q-item-label>{{ chat.formattedName }}</q-item-label>
+      <q-item-label class="ellipsis" caption v-if="chat.msgs?.length">
+        {{ chat.msgs[chat.msgs.length - 1] }}</q-item-label
       >
     </q-item-section>
     <q-item-section side>

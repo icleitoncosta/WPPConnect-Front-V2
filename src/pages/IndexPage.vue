@@ -47,17 +47,29 @@
         </q-toolbar>
 
         <q-scroll-area style="height: calc(100vh - 100px)">
-          <ChatItem v-for="item of 10" v-bind:key="item"></ChatItem>
+          <ChatItem
+            v-for="chat of chats"
+            v-bind:key="chat?.id._serialized"
+            :chat="chat"
+            @selectContact="(contact: Contact) => selectedContact = contact"
+          ></ChatItem>
         </q-scroll-area>
       </div>
-      <div class="col-9 messages-list">
+      <div class="col-9 messages-list" v-if="selectedContact.id != null">
         <div class="row header justify-between">
           <div class="col-10 contact-info">
-            <q-avatar rounded size="48px">
-              <img src="https://cdn.quasar.dev/img/avatar.png" />
+            <q-avatar rounded>
+              <q-img
+                :src="selectedContact.profilePicThumbObj?.eurl"
+                placeholder-src="https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+                style="width: 48px; height: 48px"
+                loading="lazy"
+              />
             </q-avatar>
             <div class="text">
-              <span class="contact_name">Contact Name</span>
+              <span class="contact_name">{{
+                selectedContact.formattedName
+              }}</span>
               <small class="contact_status">Status text of contact</small>
             </div>
           </div>
@@ -66,20 +78,17 @@
             <q-btn round flat icon="more_vert">
               <q-menu auto-close :offset="[110, 0]">
                 <q-list style="min-width: 150px">
-                  <q-item clickable>
+                  <q-item clickable @click="toggleRightDrawer">
                     <q-item-section>Contact data</q-item-section>
                   </q-item>
-                  <q-item clickable>
+                  <q-item>
                     <q-item-section>Block</q-item-section>
                   </q-item>
                   <q-item clickable>
                     <q-item-section>Select messages</q-item-section>
                   </q-item>
-                  <q-item clickable>
+                  <q-item>
                     <q-item-section>Silence</q-item-section>
-                  </q-item>
-                  <q-item clickable>
-                    <q-item-section>Clear messages</q-item-section>
                   </q-item>
                   <q-item clickable>
                     <q-item-section>Erase messages</q-item-section>
@@ -116,10 +125,53 @@
           <q-btn round flat icon="mic" />
         </q-toolbar>
       </div>
+      <div
+        v-if="rightDrawerOpen && selectedContact != null"
+        class="col-xs-12 col-sm-12 col-md-3 col-lg-3 contact-data shadow-2"
+      >
+        <q-toolbar class="bg-grey-2">
+          <q-toolbar-title> WhatsApp profile </q-toolbar-title>
+          <q-btn
+            round
+            flat
+            side
+            icon="close"
+            @click="toggleRightDrawer"
+            color="teal"
+          />
+        </q-toolbar>
+
+        <q-scroll-area style="height: calc(100vh - 100px)">
+          <div class="row items-center">
+            <div class="avatar col-12 items-center justify-center text-center">
+              <q-avatar rounded size="220px">
+                <q-img
+                  :src="selectedContact.profilePicThumbObj?.eurl"
+                  placeholder-src="https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+                  style="width: 130px; height: 130px"
+                  loading="lazy"
+                />
+              </q-avatar>
+              <div class="contact-name text-h6">
+                {{ selectedContact.formattedName }}
+              </div>
+            </div>
+          </div>
+          <div class="contact-info q-pa-sm">
+            <div class="text-subtitle2">Name</div>
+            <div class="text-body1">{{ selectedContact.name }}</div>
+            <q-separator spaced="10px" />
+            <div class="text-subtitle2">Phone number</div>
+            <div class="text-body1">
+              {{
+                (selectedContact.id as unknown as string).replace('@c.us', '')
+              }}
+            </div>
+            <q-separator spaced="10px" />
+          </div>
+        </q-scroll-area>
+      </div>
     </div>
-    <q-drawer v-model="rightDrawerOpen" side="right" bordered>
-      Aqui entra dados do contato
-    </q-drawer>
     <NewChat
       :isShow="showDialogNewChat"
       @editVisibility="(value: boolean) => showDialogNewChat = value"
@@ -136,12 +188,14 @@ import ChatItem from '../components/ChatItem.vue';
 import MessageItem from '../components/Chat/MessageItem.vue';
 import { Message } from '../models/Message';
 import { QScrollArea } from 'quasar';
+import { Contact } from '../models/Contact';
 
 export default defineComponent({
   name: 'IndexPage',
   components: { ChatItem, LoadMore, DateHead, MessageItem, NewChat },
   data() {
     return {
+      selectedContact: <Partial<Contact>>[],
       showDialogNewChat: false,
       message: '',
       messages: <Message[]>(<unknown>[
@@ -522,6 +576,26 @@ export default defineComponent({
           mediaData: {},
         },
       ]),
+      chats: <Partial<Contact[]>>(<unknown>[
+        {
+          id: '5521997409725@c.us',
+          name: 'Gian - Colaborador',
+          shortName: 'Gian',
+          pushname: 'Gian Carlos',
+          type: 'in',
+          isBusiness: false,
+          isEnterprise: false,
+          labels: [],
+          formattedName: 'Gian - Colaborador',
+          isMe: false,
+          isMyContact: true,
+          isPSA: false,
+          isUser: true,
+          isWAContact: true,
+          profilePicThumbObj: {},
+          msgs: null,
+        },
+      ]),
       search: '',
       typeChat: 'person',
     };
@@ -532,14 +606,31 @@ export default defineComponent({
       rightDrawerOpen,
       toggleRightDrawer() {
         rightDrawerOpen.value = !rightDrawerOpen.value;
+        if (rightDrawerOpen.value) {
+          document
+            .getElementsByClassName('messages-list')[0]
+            .classList.remove('col-9');
+          document
+            .getElementsByClassName('messages-list')[0]
+            .classList.add('col-6');
+        } else {
+          document
+            .getElementsByClassName('messages-list')[0]
+            .classList.add('col-9');
+          document
+            .getElementsByClassName('messages-list')[0]
+            .classList.remove('col-6');
+        }
       },
     };
   },
   mounted() {
-    (this.$refs.scroolMessages as QScrollArea).setScrollPosition(
+    /**
+     * (this.$refs.scroolMessages as QScrollArea).setScrollPosition(
       'vertical',
       2000
     );
+    */
   },
   methods: {
     showAttachItemSheet() {
