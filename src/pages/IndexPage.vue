@@ -4,11 +4,11 @@
       id="container"
       class="full-width full-height row wrap justify-start items-start content-start"
     >
-      <div class="col-3 chat-list shadow-2">
+      <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 chat-list shadow-2">
         <q-toolbar class="bg-grey-2">
           <q-btn round flat icon="settings">
             <q-menu auto-close>
-              <q-list style="min-width: 150px">
+              <q-list>
                 <q-item clickable
                   ><q-item-section avatar>
                     <q-icon color="teal" name="person" />
@@ -17,9 +17,15 @@
                 </q-item>
                 <q-item clickable>
                   <q-item-section avatar>
-                    <q-icon color="red" name="groups" />
+                    <q-icon color="secondary" name="groups" />
                   </q-item-section>
                   <q-item-section>Chat with groups</q-item-section>
+                </q-item>
+                <q-item clickable>
+                  <q-item-section avatar>
+                    <q-icon color="purple" name="archive" />
+                  </q-item-section>
+                  <q-item-section>Archived</q-item-section>
                 </q-item>
               </q-list>
             </q-menu>
@@ -37,7 +43,7 @@
               <q-icon name="search" />
             </template>
           </q-input>
-          <q-btn round flat icon="message" />
+          <q-btn round flat icon="add" @click="showDialogNewChat = true" />
         </q-toolbar>
 
         <q-scroll-area style="height: calc(100vh - 100px)">
@@ -83,7 +89,7 @@
             </q-btn>
           </div>
         </div>
-        <q-scroll-area style="height: calc(100vh - 204px)">
+        <q-scroll-area ref="scroolMessages" style="height: calc(100vh - 204px)">
           <LoadMore></LoadMore>
           <DateHead></DateHead>
           <MessageItem
@@ -114,22 +120,29 @@
     <q-drawer v-model="rightDrawerOpen" side="right" bordered>
       Aqui entra dados do contato
     </q-drawer>
+    <NewChat
+      :isShow="showDialogNewChat"
+      @editVisibility="(value: boolean) => showDialogNewChat = value"
+    />
   </q-page>
 </template>
 
 <script lang="ts">
 import DateHead from '../components/Chat/DateHead.vue';
 import LoadMore from '../components/Chat/LoadMore.vue';
+import NewChat from '../components/Chat/NewChat.vue';
 import { defineComponent, ref } from 'vue';
 import ChatItem from '../components/ChatItem.vue';
 import MessageItem from '../components/Chat/MessageItem.vue';
 import { Message } from '../models/Message';
+import { QScrollArea } from 'quasar';
 
 export default defineComponent({
   name: 'IndexPage',
-  components: { ChatItem, LoadMore, DateHead, MessageItem },
+  components: { ChatItem, LoadMore, DateHead, MessageItem, NewChat },
   data() {
     return {
+      showDialogNewChat: false,
       message: '',
       messages: <Message[]>(<unknown>[
         {
@@ -521,6 +534,12 @@ export default defineComponent({
         rightDrawerOpen.value = !rightDrawerOpen.value;
       },
     };
+  },
+  mounted() {
+    (this.$refs.scroolMessages as QScrollArea).setScrollPosition(
+      'vertical',
+      2000
+    );
   },
   methods: {
     showAttachItemSheet() {

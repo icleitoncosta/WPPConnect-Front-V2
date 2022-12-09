@@ -4,7 +4,9 @@
   min-height: 100%;
   z-index: 1;
 }
-
+.chat-list .chat-item .text-caption {
+  max-width: 13vw;
+}
 .messages-list {
   padding: 15px;
 }
@@ -42,4 +44,18 @@
 
 .loading-custom {
   background-color: $primary;
+}
+
+@media screen and (max-width: 1023px) {
+  .messages-list {
+    display: none;
+  }
+  .chat-list .chat-item .text-caption {
+    max-width: 40vw;
+  }
+}
+@media screen and (min-width: 1023px) and (max-width: 1200px) {
+  .chat-list .chat-item .text-caption {
+    max-width: 10vw;
+  }
 }
