@@ -14,6 +14,7 @@
         <q-toolbar-title> {{ config.NAME }}</q-toolbar-title>
         <q-separator dark vertical />
         <q-btn
+          v-if="$q.platform.is.desktop"
           href="https://wppconnect.io/"
           target="_blank"
           stretch
@@ -23,6 +24,7 @@
         />
         <q-separator dark vertical />
         <q-btn
+          v-if="$q.platform.is.desktop"
           stretch
           flat
           label="DISCORD"
